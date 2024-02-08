@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_viewer/collection_selector_page.dart';
 import 'package:media_kit/media_kit.dart';
 
-//TODO: Separate into multiple dart files
 //TODO: Collection selector screen
 //TODO: Saving collections and search depth for individual folders
 //TODO: Prevent multiple file selectors being open

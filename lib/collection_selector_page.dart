@@ -3,7 +3,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_viewer/image_viewer_model.dart';
 import 'package:image_viewer/image_viewer_page.dart';
-import 'package:image_viewer/main.dart';
 import 'package:provider/provider.dart';
 
 class CollectionSelectorPage extends StatefulWidget {
