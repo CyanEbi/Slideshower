@@ -17,7 +17,7 @@ class ImageViewerPage extends StatelessWidget {
         controller: model.controller,
       );
     } else {
-      return (Image.file(current));
+      return (Image.file(current, fit: BoxFit.contain));
     }
   }
 
@@ -30,7 +30,9 @@ class ImageViewerPage extends StatelessWidget {
           : const Center(child: Text('Loading'));
       return Column(
         children: [
-          Expanded(child: mediaWidget),
+          Expanded(
+            child: mediaWidget,
+          ),
           Row(
             children: [
               ElevatedButton(

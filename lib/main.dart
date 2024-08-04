@@ -5,7 +5,6 @@ import 'package:media_kit/media_kit.dart';
 //TODO: Collection selector screen
 //TODO: Saving collections and search depth for individual folders
 //TODO: Prevent multiple file selectors being open
-//TODO: Scale images
 //TODO: Support sequential files
 //TODO: Mark/note/log files that I want to do something about
 
