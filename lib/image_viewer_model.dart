@@ -19,14 +19,19 @@ class ImageViewerModel extends ChangeNotifier {
   late final player = Player();
   late final controller = VideoController(player);
 
-  ImageViewerModel(Directory dir, int searchDepth) {
-    populateMediaList(dir, searchDepth);
+  ImageViewerModel(collection) {
+    populateMediaList(collection);
     player.setPlaylistMode(PlaylistMode.single);
   }
 
-  void populateMediaList(Directory dir, int searchDepth) async {
+  void populateMediaList(collection) async {
+    List<FileSystemEntity> mediaList = [];
     //TODO: Properly handle if _mediaList turns out empty
-    _mediaList = await getMedia(dir, searchDepth);
+    for (final dir in collection['directories']) {
+      final temp = await getMedia(Directory(dir['path']), dir['searchDepth']);
+      mediaList.addAll(temp);
+    }
+    _mediaList = mediaList;
 
     if (_mediaList.isNotEmpty) {
       FileSystemEntity first = _mediaList[_random.nextInt(_mediaList.length)];

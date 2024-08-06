@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_viewer/image_viewer_model.dart';
@@ -13,28 +15,33 @@ class CollectionSelectorPage extends StatefulWidget {
 }
 
 class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
-  int searchDepth = 2;
-  String? path;
+  List<dynamic> collections = [];
+  int selectedIndex = 0;
 
-  void selectFolder() async {
-    String? newPath = await FilePicker.platform.getDirectoryPath();
+  @override
+  void initState() {
+    super.initState();
+    fetchCollections();
+  }
+
+  void fetchCollections() async {
+    final dataDir = await getApplicationSupportDirectory();
+    File file = File('${dataDir.path}/imageviewercollections.json');
+    final contents = await file.readAsString();
     setState(() {
-      path = newPath;
+      collections = json.decode(contents) as List<dynamic>;
     });
   }
 
   void startImageViewer(BuildContext context) {
-    String? selectedPath = path;
-    if (selectedPath != null) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: ((context) => ChangeNotifierProvider(
-                    create: (context) =>
-                        ImageViewerModel(Directory(selectedPath), searchDepth),
-                    child: const ImageViewerPage(),
-                  ))));
-    }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: ((context) => ChangeNotifierProvider(
+                  create: (context) =>
+                      ImageViewerModel(collections[selectedIndex]),
+                  child: const ImageViewerPage(),
+                ))));
   }
 
   @override
@@ -44,31 +51,31 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          DropdownButton<int>(
-            items: const [
-              DropdownMenuItem<int>(value: 0, child: Text('0')),
-              DropdownMenuItem<int>(value: 1, child: Text('1')),
-              DropdownMenuItem<int>(value: 2, child: Text('2')),
-            ],
-            onChanged: (int? value) {
-              setState(() {
-                searchDepth = value!;
-              });
-            },
-            value: searchDepth,
-          ),
-          ElevatedButton(
-            onPressed: selectFolder,
-            child: const Text('Select folder'),
-          ),
-          ElevatedButton(
-            onPressed: path == null
-                ? null
-                : () {
-                    startImageViewer(context);
+          Expanded(
+            child: ListView.builder(
+              itemCount: collections.length,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(collections[index]['name']),
+                  selectedTileColor: Colors.cyan,
+                  tileColor: const Color.fromARGB(255, 228, 228, 228),
+                  selected: index == selectedIndex,
+                  onTap: () {
+                    setState(() {
+                      selectedIndex = index;
+                    });
                   },
+                );
+              },
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              startImageViewer(context);
+            },
             child: const Text('Start'),
-          )
+          ),
         ],
       ),
     ));

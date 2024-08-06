@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:image_viewer/collection_selector_page.dart';
 import 'package:media_kit/media_kit.dart';
 
-//TODO: Collection selector screen
-//TODO: Saving collections and search depth for individual folders
-//TODO: Prevent multiple file selectors being open
+//TODO: Prettify collection selector screen
+//TODO: Properly define JSON typing if possible
+//TODO: Properly handle if _mediaList turns out empty
+//TODO: Figure out why the dataDir folder has "example" in the name
+//TODO: Ability to add collections
+//TODO: Create a collections file if none exists
+//TODO: Ability to edit collections
+//TODO: Ability to return to collection selector
 //TODO: Support sequential files
 //TODO: Mark/note/log files that I want to do something about
 
