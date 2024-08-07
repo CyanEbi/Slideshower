@@ -53,13 +53,31 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: collections.length,
+              itemCount: collections.length + 1,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
+                if (index == collections.length) {
+                  return ListTile(
+                    title: const Text("New collection"),
+                    tileColor: const Color.fromARGB(255, 228, 228, 228),
+                    leading: IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        print('New'); //TODO: Add functionality
+                      },
+                    ),
+                  );
+                }
                 return ListTile(
                   title: Text(collections[index]['name']),
                   selectedTileColor: Colors.cyan,
                   tileColor: const Color.fromARGB(255, 228, 228, 228),
+                  leading: IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      print('Edit'); //TODO: Add functionality
+                    },
+                  ),
                   selected: index == selectedIndex,
                   onTap: () {
                     setState(() {
