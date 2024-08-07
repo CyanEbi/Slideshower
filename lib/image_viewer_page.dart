@@ -36,6 +36,12 @@ class ImageViewerPage extends StatelessWidget {
           Row(
             children: [
               ElevatedButton(
+                  onPressed: () {
+                    model.disposePlayer();
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Return')),
+              ElevatedButton(
                 onPressed: model.back,
                 child: const Text('Back'),
               ),

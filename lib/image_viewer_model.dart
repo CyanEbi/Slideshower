@@ -103,4 +103,8 @@ class ImageViewerModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void disposePlayer() async {
+    await player.dispose();
+  }
 }
