@@ -5,11 +5,11 @@ import 'package:media_kit/media_kit.dart';
 //TODO: Prettify collection selector screen
 //TODO: Properly define JSON typing if possible
 //TODO: Properly handle if _mediaList turns out empty
-//TODO: Figure out why the dataDir folder has "example" in the name
 //TODO: Ability to add collections
 //TODO: Create a collections file if none exists
 //TODO: Ability to edit collections
 //TODO: Mark/note/log files that I want to do something about
+//TODO: Some images have weird color profiles or something
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

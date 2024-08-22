@@ -41,3 +41,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# The ImageViewer collections are personal and should be ignored
+/imageviewercollections.json

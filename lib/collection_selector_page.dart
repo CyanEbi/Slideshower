@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_viewer/image_viewer_model.dart';
@@ -25,8 +24,7 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
   }
 
   void fetchCollections() async {
-    final dataDir = await getApplicationSupportDirectory();
-    File file = File('${dataDir.path}/imageviewercollections.json');
+    File file = File('imageviewercollections.json');
     final contents = await file.readAsString();
     setState(() {
       collections = json.decode(contents) as List<dynamic>;
