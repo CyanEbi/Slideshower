@@ -9,7 +9,6 @@ import 'package:media_kit/media_kit.dart';
 //TODO: Ability to add collections
 //TODO: Create a collections file if none exists
 //TODO: Ability to edit collections
-//TODO: Support sequential files
 //TODO: Mark/note/log files that I want to do something about
 
 void main() {
