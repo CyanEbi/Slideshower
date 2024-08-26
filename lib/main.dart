@@ -5,6 +5,7 @@ import 'package:media_kit/media_kit.dart';
 //TODO: Prettify collection selector screen
 //TODO: Properly define JSON typing if possible
 //TODO: Properly handle if _mediaList turns out empty
+//TODO: Change app package name
 //TODO: Ability to add collections
 //TODO: Create a collections file if none exists
 //TODO: Ability to edit collections
