@@ -15,6 +15,7 @@ class CollectionSelectorPage extends StatefulWidget {
 }
 
 class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
+  late String dataPath;
   List<dynamic> collections = [];
   int selectedIndex = 0;
 
@@ -25,9 +26,9 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
   }
 
   void fetchCollections() async {
-    print(await getApplicationSupportDirectory());
     final dataDir = await getApplicationSupportDirectory();
-    File file = File('${dataDir.path}/imageviewercollections.json');
+    dataPath = '${dataDir.path}/imageviewercollections.json';
+    File file = File(dataPath);
     final contents = await file.readAsString();
     setState(() {
       collections = json.decode(contents) as List<dynamic>;
@@ -60,6 +61,7 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
                 if (index == collections.length) {
                   return ListTile(
                     title: const Text("New collection"),
+                    selectedTileColor: Colors.cyan,
                     tileColor: const Color.fromARGB(255, 228, 228, 228),
                     leading: IconButton(
                       icon: const Icon(Icons.add),
@@ -67,6 +69,10 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
                         print('New'); //TODO: Add functionality
                       },
                     ),
+                    selected: index == selectedIndex,
+                    onTap: () {
+                      print('New'); //TODO: Add functionality
+                    },
                   );
                 }
                 return ListTile(
@@ -76,6 +82,9 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
                   leading: IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
                       print('Edit'); //TODO: Add functionality
                     },
                   ),
