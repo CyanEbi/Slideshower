@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -46,65 +47,74 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
                 ))));
   }
 
+  // May actually cause a race condition - The default behaviour when pressing
+  // "enter" would "click" the focused ListItem, but I'm not sure what happens
+  // now that "enter" is overloaded
+  final ShortcutActivator start =
+      const SingleActivator(LogicalKeyboardKey.enter);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: collections.length + 1,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                if (index == collections.length) {
+        body: CallbackShortcuts(
+      bindings: {start: () => startSlideshower(context)},
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: collections.length + 1,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  if (index == collections.length) {
+                    return ListTile(
+                      title: const Text("New collection"),
+                      selectedTileColor: Colors.cyan,
+                      tileColor: const Color.fromARGB(255, 228, 228, 228),
+                      leading: IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          print('New'); //TODO: Add functionality
+                        },
+                      ),
+                      selected: index == selectedIndex,
+                      onTap: () {
+                        print('New'); //TODO: Add functionality
+                      },
+                    );
+                  }
                   return ListTile(
-                    title: const Text("New collection"),
+                    title: Text(collections[index]['name']),
                     selectedTileColor: Colors.cyan,
                     tileColor: const Color.fromARGB(255, 228, 228, 228),
                     leading: IconButton(
-                      icon: const Icon(Icons.add),
+                      icon: const Icon(Icons.edit),
                       onPressed: () {
-                        print('New'); //TODO: Add functionality
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                        print('Edit'); //TODO: Add functionality
                       },
                     ),
                     selected: index == selectedIndex,
                     onTap: () {
-                      print('New'); //TODO: Add functionality
-                    },
-                  );
-                }
-                return ListTile(
-                  title: Text(collections[index]['name']),
-                  selectedTileColor: Colors.cyan,
-                  tileColor: const Color.fromARGB(255, 228, 228, 228),
-                  leading: IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
                       setState(() {
                         selectedIndex = index;
                       });
-                      print('Edit'); //TODO: Add functionality
                     },
-                  ),
-                  selected: index == selectedIndex,
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                  },
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              startSlideshower(context);
-            },
-            child: const Text('Start'),
-          ),
-        ],
+            ElevatedButton(
+              onPressed: () {
+                startSlideshower(context);
+              },
+              child: const Text('Start'),
+            ),
+          ],
+        ),
       ),
     ));
   }

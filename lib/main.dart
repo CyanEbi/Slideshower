@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:slideshower/collection_selector_page.dart';
 import 'package:media_kit/media_kit.dart';
 
-//TODO: Rename to SliderShower
-//TODO: Keyboard shortcuts
 //TODO: Auto-next
 //TODO: Prettify collection selector screen
 //TODO: Properly define JSON typing if possible

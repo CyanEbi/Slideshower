@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:slideshower/slideshower_model.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
@@ -21,6 +22,13 @@ class SlideshowerPage extends StatelessWidget {
     }
   }
 
+  final ShortcutActivator exit =
+      const SingleActivator(LogicalKeyboardKey.escape);
+  final ShortcutActivator back =
+      const SingleActivator(LogicalKeyboardKey.arrowLeft);
+  final ShortcutActivator next =
+      const SingleActivator(LogicalKeyboardKey.arrowRight);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,30 +36,43 @@ class SlideshowerPage extends StatelessWidget {
       Widget mediaWidget = model.hasMedia
           ? getMediaWidget(model.current, model)
           : const Center(child: Text('Loading'));
-      return Column(
-        children: [
-          Expanded(
-            child: mediaWidget,
-          ),
-          Row(
+      return CallbackShortcuts(
+        bindings: {
+          exit: () {
+            model.disposePlayer();
+            Navigator.pop(context);
+          },
+          back: () => model.back(),
+          next: () => model.next(),
+        },
+        child: Focus(
+          autofocus: true,
+          child: Column(
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    model.disposePlayer();
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Return')),
-              ElevatedButton(
-                onPressed: model.back,
-                child: const Text('Back'),
+              Expanded(
+                child: mediaWidget,
               ),
-              ElevatedButton(
-                onPressed: model.next,
-                child: const Text('Next'),
+              Row(
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        model.disposePlayer();
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Return')),
+                  ElevatedButton(
+                    onPressed: model.back,
+                    child: const Text('Back'),
+                  ),
+                  ElevatedButton(
+                    onPressed: model.next,
+                    child: const Text('Next'),
+                  )
+                ],
               )
             ],
-          )
-        ],
+          ),
+        ),
       );
     }));
   }
