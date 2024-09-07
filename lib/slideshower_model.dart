@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:image_viewer/node.dart';
+import 'package:slideshower/node.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:mime/mime.dart';
 import 'package:collection/collection.dart';
 
-class ImageViewerModel extends ChangeNotifier {
+class SlideshowerModel extends ChangeNotifier {
   List<FileSystemEntity> _mediaList =
       []; // All files and folders defined by selected collection
   bool get hasMedia => _mediaList.isNotEmpty;
@@ -20,7 +20,7 @@ class ImageViewerModel extends ChangeNotifier {
   late final player = Player();
   late final controller = VideoController(player);
 
-  ImageViewerModel(collection) {
+  SlideshowerModel(collection) {
     populateMediaList(collection);
     player.setPlaylistMode(PlaylistMode.single);
   }

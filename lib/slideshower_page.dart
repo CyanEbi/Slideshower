@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_viewer/image_viewer_model.dart';
+import 'package:slideshower/slideshower_model.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 
-class ImageViewerPage extends StatelessWidget {
-  const ImageViewerPage({super.key});
+class SlideshowerPage extends StatelessWidget {
+  const SlideshowerPage({super.key});
 
-  Widget getMediaWidget(File current, ImageViewerModel model) {
+  Widget getMediaWidget(File current, SlideshowerModel model) {
     final mimeType = lookupMimeType(current.path);
     if (mimeType!.startsWith('video/')) {
       model.player.open(Media(current.path));
@@ -24,7 +24,7 @@ class ImageViewerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Consumer<ImageViewerModel>(builder: (context, model, child) {
+        body: Consumer<SlideshowerModel>(builder: (context, model, child) {
       Widget mediaWidget = model.hasMedia
           ? getMediaWidget(model.current, model)
           : const Center(child: Text('Loading'));

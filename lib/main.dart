@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:image_viewer/collection_selector_page.dart';
+import 'package:slideshower/collection_selector_page.dart';
 import 'package:media_kit/media_kit.dart';
 
 //TODO: Rename to SliderShower
@@ -19,16 +19,16 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
 
-  runApp(const ImageViewerApp());
+  runApp(const SlideshowerApp());
 }
 
-class ImageViewerApp extends StatelessWidget {
-  const ImageViewerApp({super.key});
+class SlideshowerApp extends StatelessWidget {
+  const SlideshowerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Image Viewer',
+      title: 'Slideshower',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

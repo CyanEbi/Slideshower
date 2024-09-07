@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_viewer/image_viewer_model.dart';
-import 'package:image_viewer/image_viewer_page.dart';
+import 'package:slideshower/slideshower_model.dart';
+import 'package:slideshower/slideshower_page.dart';
 import 'package:provider/provider.dart';
 
 class CollectionSelectorPage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
 
   void fetchCollections() async {
     final dataDir = await getApplicationSupportDirectory();
-    dataPath = '${dataDir.path}/imageviewercollections.json';
+    dataPath = '${dataDir.path}/slideshowercollections.json';
     File file = File(dataPath);
     final contents = await file.readAsString();
     setState(() {
@@ -35,14 +35,14 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
     });
   }
 
-  void startImageViewer(BuildContext context) {
+  void startSlideshower(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: ((context) => ChangeNotifierProvider(
                   create: (context) =>
-                      ImageViewerModel(collections[selectedIndex]),
-                  child: const ImageViewerPage(),
+                      SlideshowerModel(collections[selectedIndex]),
+                  child: const SlideshowerPage(),
                 ))));
   }
 
@@ -100,7 +100,7 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              startImageViewer(context);
+              startSlideshower(context);
             },
             child: const Text('Start'),
           ),
