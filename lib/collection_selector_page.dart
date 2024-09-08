@@ -62,11 +62,13 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            // --- Collections list ---
             Expanded(
               child: ListView.builder(
                 itemCount: collections.length + 1,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
+                  // --- "New Collection" tile ---
                   if (index == collections.length) {
                     return ListTile(
                       title: const Text("New collection"),
@@ -84,6 +86,7 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
                       },
                     );
                   }
+                  // --- Existing collection tiles ---
                   return ListTile(
                     title: Text(collections[index]['name']),
                     selectedTileColor: Colors.cyan,
@@ -107,6 +110,7 @@ class _CollectionSelectorPageState extends State<CollectionSelectorPage> {
                 },
               ),
             ),
+            // --- Start button ---
             ElevatedButton(
               onPressed: () {
                 startSlideshower(context);
