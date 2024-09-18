@@ -20,6 +20,9 @@ class SlideshowerModel extends ChangeNotifier {
   late final player = Player();
   late final controller = VideoController(player);
 
+  final _notedMedia = <File>{};
+  List<File> get notedMedia => _notedMedia.toList();
+
   SlideshowerModel(collection) {
     populateMediaList(collection);
     player.setPlaylistMode(PlaylistMode.single);
@@ -152,5 +155,43 @@ class SlideshowerModel extends ChangeNotifier {
 
   void disposePlayer() async {
     await player.dispose();
+  }
+
+  void noteMedia() {
+    _notedMedia.add(current);
+  }
+
+  void deleteMedia(File file) {
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+    _notedMedia.remove(file);
+    _mediaList.remove(file);
+
+    // Find a replacement if the File to delete is currently shown
+    // If current already has a .next, that Node may contain the File to delete
+    // Therefore 'while' is used to skip any additional occurences
+    while (_current.value == file) {
+      next();
+    }
+
+    // Pop all nodes containing the File to delete
+    Node? node = _current; // TODO: WRONG! Make sure 'node' is assinged head
+    while (node!.next != null) {
+      node = node.next;
+    }
+    while (node != null) {
+      if (node.value == file) {
+        if (node.prev != null) {
+          node.prev!.next = node.next;
+        }
+        if (node.next != null) {
+          node.next!.prev = node.prev;
+        }
+      }
+      node = node.prev;
+    }
+
+    notifyListeners();
   }
 }
