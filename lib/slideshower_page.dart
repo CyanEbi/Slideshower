@@ -64,6 +64,11 @@ class SlideshowerPage extends StatelessWidget {
   final ShortcutActivator note = const SingleActivator(LogicalKeyboardKey.keyN);
   final ShortcutActivator next =
       const SingleActivator(LogicalKeyboardKey.arrowRight);
+  final ShortcutActivator mute = const SingleActivator(LogicalKeyboardKey.keyM);
+  final ShortcutActivator volUp =
+      const SingleActivator(LogicalKeyboardKey.arrowUp);
+  final ShortcutActivator volDown =
+      const SingleActivator(LogicalKeyboardKey.arrowDown);
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +91,9 @@ class SlideshowerPage extends StatelessWidget {
                 .showSnackBar(getSnackBar(MediaQuery.of(context).size.width));
           },
           next: () => model.next(),
+          mute: () => model.toggleMute(),
+          volUp: () => model.volumeUp(),
+          volDown: () => model.volumeDown()
         },
         // --- Create the Slideshower page ---
         child: Focus(

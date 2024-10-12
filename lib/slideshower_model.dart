@@ -19,13 +19,25 @@ class SlideshowerModel extends ChangeNotifier {
 
   late final player = Player();
   late final controller = VideoController(player);
+  double _volume = 100;
+  bool _isMuted = false;
 
   final _notedMedia = <File>{};
   List<File> get notedMedia => _notedMedia.toList();
 
   SlideshowerModel(collection) {
     populateMediaList(collection);
+
     player.setPlaylistMode(PlaylistMode.single);
+
+    player.stream.volume.listen((double volume) {
+      if (volume > 0) {
+        _volume = volume;
+        _isMuted = false;
+      } else {
+        _isMuted = true;
+      }
+    });
   }
 
   void populateMediaList(collection) async {
@@ -159,6 +171,30 @@ class SlideshowerModel extends ChangeNotifier {
 
   void noteMedia() {
     _notedMedia.add(current);
+  }
+
+  void toggleMute() {
+    if (_isMuted) {
+      player.setVolume(_volume);
+    } else {
+      player.setVolume(0.0);
+    }
+  }
+
+  void volumeUp() {
+    if (_volume < 90.0) {
+      player.setVolume(_volume + 10.0);
+    } else {
+      player.setVolume(100.0);
+    }
+  }
+
+  void volumeDown() {
+    if (_volume > 10.0) {
+      player.setVolume(_volume - 10.0);
+    } else {
+      player.setVolume(0.0);
+    }
   }
 
   void deleteMedia(File file) {
